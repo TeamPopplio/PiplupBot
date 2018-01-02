@@ -1,6 +1,9 @@
+exports.description = "Shows information about an item."
+
 const request = require('request'),
     requireFromUrl = require('require-from-url/sync'),
     Matcher = require('did-you-mean'),
+    func = require("../data/functions.js")
     footers = require('../data/footers.js');
 let items,
     aliases,
@@ -25,7 +28,7 @@ request('https://raw.githubusercontent.com/Zarel/Pokemon-Showdown/master/data/al
     }
 });
 exports.action = (msg, args) => {
-    var itemName = args.toLowerCase();
+    var itemName = args.join(" ").toLowerCase();
     if (aliases[itemName]) {
         itemName = aliases[itemName];
     }
@@ -41,11 +44,11 @@ exports.action = (msg, args) => {
         text: footers[Math.floor(Math.random() * footers.length)],
         icon_url: 'https://cdn.rawgit.com/110Percent/beheeyem/gh-pages/include/favicon.png'
     } : {
-        text: capitalizeFirstLetter(item.name),
+        text: func.capitalizeFirstLetter(item.name),
         icon_url: "https://raw.githubusercontent.com/110Percent/beheeyem-data/master/sprites/items/" + item.name.toLowerCase().replace(" ", "-") + ".png"
     };
     if (item) {
-        msg.channel.send("\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\n\n**" + capitalizeFirstLetter(item.name) + "**", {
+        msg.channel.send("\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\n\n**" + func.capitalizeFirstLetter(item.name) + "**", {
             embed: {
                 color: 35071,
                 fields: [{
@@ -64,14 +67,14 @@ exports.action = (msg, args) => {
                     },
                     {
                         name: "External Resources",
-                        value: "[Bulbapedia](http://bulbapedia.bulbagarden.net/wiki/" + capitalizeFirstLetter(item.name.replace(" ", "_").replace("'", "")) + ")  |  [Smogon](http://www.smogon.com/dex/sm/items/" + item.name.toLowerCase().replace(" ", "_").replace("'", "") + ")  |  [PokémonDB](http://pokemondb.net/item/" + item.name.toLowerCase().replace(" ", "-").replace("'", "") + ")"
+                        value: "[Bulbapedia](http://bulbapedia.bulbagarden.net/wiki/" + func.capitalizeFirstLetter(item.name.replace(" ", "_").replace("'", "")) + ")  |  [Smogon](http://www.smogon.com/dex/sm/items/" + item.name.toLowerCase().replace(" ", "_").replace("'", "") + ")  |  [PokémonDB](http://pokemondb.net/item/" + item.name.toLowerCase().replace(" ", "-").replace("'", "") + ")"
                     }
                 ],
                 footer: tFooter
             }
         });
     } else {
-        let dym = match.get(args);
+        let dym = match.get(args.join(" "));
         let dymString;
         if (dym == null) {
             dymString = 'Check your spelling and try again.';
@@ -80,8 +83,4 @@ exports.action = (msg, args) => {
         }
         msg.channel.send("⚠ Item not found! " + dymString);
     }
-}
-
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
 }

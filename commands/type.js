@@ -1,4 +1,7 @@
+exports.description = "Shows the damage modifiers for a set\nof types.Multiple types can be entered."
+
 const typeMatchups = require("../data/typechart.js").BattleTypeChart,
+    func = require("../data/functions.js")
     footers = require('../data/footers.js');
 let tFooter;
 
@@ -40,10 +43,10 @@ exports.action = (msg, args) => {
     };
     let atk = JSON.parse(JSON.stringify(def));
     var displayTypes = [];
-    for (var z = 0; z < args.split(" ").length; z++) {
-        var argsSplit = args.split(" ")[z];
+    for (var z = 0; z < args.length; z++) {
+        var argsSplit = args[z];
         if (Object.keys(typeMatchups).map(c => c.toLowerCase()).indexOf(argsSplit.toLowerCase()) != -1) {
-            var toType = capitalizeFirstLetter(argsSplit);
+            var toType = func.capitalizeFirstLetter(argsSplit);
             displayTypes.push(toType);
             var dTaken = typeMatchups[toType].damageTaken;
             for (toMatch in dTaken) {
@@ -211,8 +214,4 @@ exports.action = (msg, args) => {
             footer: tFooter
         }
     })
-}
-
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
 }

@@ -1,61 +1,100 @@
-const footers = require('../data/footers.js');
+exports.description = "Displays a list of helpful commands."
+
+const footers = require('../data/footers.js'),
+    fs = require("fs"),
+    func = require("../data/functions.js")
 let tFooter;
 
-exports.action = (msg, args) => {
+exports.action = (msg, args, client, prefix) => {
     tFooter = Math.floor(Math.random() * 15) == 0 ? {
         text: footers[Math.floor(Math.random() * footers.length)],
         icon_url: 'https://cdn.rawgit.com/110Percent/beheeyem/gh-pages/include/favicon.png'
     } : null;
-    msg.channel.send("", {
+    var embed = {color:35071,footer:tFooter,fields:[]}
+    var commands = {};
+    cmdfiles = fs.readdirSync('./commands');
+    cmdfiles.forEach(filename => {
+        var cmdName = filename.split('.')[0];
+        try {
+            commands[cmdName] = require('./' + filename);
+            if(!commands[cmdName].perms)
+            {
+                if(!commands[cmdName].main)
+                    if(commands[cmdName].description)
+                        embed.fields.push({name:prefix+cmdName,value:commands[cmdName].description,inline:true})
+                    else
+                        embed.fields.push({name:prefix+cmdName,value:"No description.",inline:true})
+                else if(func.isMain(msg))
+                    if(commands[cmdName].description)
+                        embed.fields.push({name:prefix+cmdName,value:commands[cmdName].description,inline:true})
+                    else
+                        embed.fields.push({name:prefix+cmdName,value:"No description.",inline:true})
+            }
+            else if(func.isAllowed(msg,commands[cmdName].perms))
+            {
+                if(!commands[cmdName].main)
+                    if(commands[cmdName].description)
+                        embed.fields.push({name:prefix+cmdName,value:commands[cmdName].description,inline:true})
+                    else
+                        embed.fields.push({name:prefix+cmdName,value:"No description.",inline:true})
+                else if(func.isMain(msg))
+                    if(commands[cmdName].description)
+                        embed.fields.push({name:prefix+cmdName,value:commands[cmdName].description,inline:true})
+                    else
+                        embed.fields.push({name:prefix+cmdName,value:"No description.",inline:true})
+            }
+        } catch (err) {
+            if (err)
+                console.log('Error in '.red + cmdName.yellow + '!'.red + '\n' + err.stack);
+        }
+    });
+    msg.channel.send("",{embed:embed})
+
+    /*msg.channel.send("", {
         embed: {
             color: 35071,
             fields: [{
-                    name: "b.help",
-                    value: "Displays a list of helpful commands.",
+                    name: "-help",
+                    value: "Displays a list of Beeheyem-related commands.",
                     inline: true
                 },
                 {
-                    name: "b.invite",
-                    value: "Shows an invite link for Beheeyem to join servers. Also shows a link for the /r/Pokemon Discord.",
+                    name: "-dex",
+                    value: "`-dex beheeyem`\n`-dex 606`\nShows information about a Pokémon.",
                     inline: true
                 },
                 {
-                    name: "b.dex",
-                    value: "`b.dex beheeyem`\n`b.dex 606`\nShows information about a Pokémon.",
+                    name: "-ability",
+                    value: "`-ability static`\nShows information about an ability.",
                     inline: true
                 },
                 {
-                    name: "b.ability",
-                    value: "`b.ability static`\nShows information about an ability.",
+                    name: "-item",
+                    value: "`-item soothe bell`\nShows information about an item.",
                     inline: true
                 },
                 {
-                    name: "b.item",
-                    value: "`b.item soothe bell`\nShows information about an item.",
+                    name: "-move",
+                    value: "`-move quick attack`\nShows information about a move.",
                     inline: true
                 },
                 {
-                    name: "b.move",
-                    value: "`b.move quick attack`\nShows information about a move.",
+                    name: "-type",
+                    value: "`-type psychic`\nShows the damage modifiers for a set\nof types.Multiple types can be entered.",
                     inline: true
                 },
                 {
-                    name: "b.type",
-                    value: "`b.type psychic`\nShows the damage modifiers for a set\nof types.Multiple types can be entered.",
+                    name: '-convert',
+                    value: '`-convert 5 km to mi`\nConvert a value between two units.',
                     inline: true
                 },
                 {
-                    name: 'b.convert',
-                    value: '`b.convert 5 km to mi`\nConvert a value between two units.',
-                    inline: true
-                },
-                {
-                    name: 'b.user-info',
-                    value: '`b.user-info <mention>`\nDisplays informaton on a user.',
+                    name: '-user-info',
+                    value: '`-user-info <mention>`\nDisplays informaton on a user.',
                     inline: true
                 }
             ],
             footer: tFooter
         }
-    })
+    })*/
 }

@@ -1,3 +1,5 @@
+exports.description = "Shows information about a Pokémon."
+
 const request = require('request'),
     requireFromUrl = require('require-from-url/sync'),
     dexEntries = require("../data/flavorText.json"),
@@ -9,6 +11,7 @@ const request = require('request'),
     footers = require('../data/footers.js'),
     minimist = require('minimist'),
     locales = require('../data/locales.js'),
+    func = require("../data/functions.js")
     otherAliases = require('../data/otherAliases.json');
 let dex,
     aliases,
@@ -49,7 +52,10 @@ request('https://raw.githubusercontent.com/Zarel/Pokemon-Showdown/master/data/al
     }
 });
 exports.action = (msg, args) => {
-    mm = minimist(args.split(' '));
+    mm = minimist(args);
+    if(args.join("").toLowerCase() == "treefiddy") {
+        mm = minimist(["350"])
+    }
     mainArgs = mm._.join(' ');
     locale = mm.lang && locales[mm.lang] ? locales[mm.lang] : locales.en;
     console.dir(mm);
@@ -85,23 +91,23 @@ exports.action = (msg, args) => {
         let imgDimensions = {};
 
         poke = pokeEntry.species;
-        var evoLine = "**" + capitalizeFirstLetter(poke) + "**",
+        var evoLine = "**" + func.capitalizeFirstLetter(poke) + "**",
             preEvos = "";
         if (pokeEntry.prevo) {
-            preEvos = preEvos + capitalizeFirstLetter(pokeEntry.prevo) + " > ";
+            preEvos = preEvos + func.capitalizeFirstLetter(pokeEntry.prevo) + " > ";
             var preEntry = dex[pokeEntry.prevo];
             if (preEntry.prevo) {
-                preEvos = capitalizeFirstLetter(preEntry.prevo) + " > " + preEvos;
+                preEvos = func.capitalizeFirstLetter(preEntry.prevo) + " > " + preEvos;
             }
             evoLine = preEvos + evoLine;
         }
         var evos = ""
         if (pokeEntry.evos) {
-            evos = evos + " > " + pokeEntry.evos.map(entry => capitalizeFirstLetter(entry)).join(", ");
+            evos = evos + " > " + pokeEntry.evos.map(entry => func.capitalizeFirstLetter(entry)).join(", ");
             if (pokeEntry.evos.length < 2) {
                 var evoEntry = dex[pokeEntry.evos[0]];
                 if (evoEntry.evos) {
-                    evos = evos + " > " + evoEntry.evos.map(entry => capitalizeFirstLetter(entry)).join(", ");
+                    evos = evos + " > " + evoEntry.evos.map(entry => func.capitalizeFirstLetter(entry)).join(", ");
                 }
             }
             evoLine = evoLine + evos;
@@ -128,14 +134,14 @@ exports.action = (msg, args) => {
         if (imagefetch < 10) {
             imagefetch = "0" + imagefetch;
         }
-        imagefetch = imagefetch + capitalizeFirstLetter(poke) + ".png";
+        imagefetch = imagefetch + func.capitalizeFirstLetter(poke) + ".png";
 
         let imgPoke = poke.toLowerCase();
         for (let r in otherAliases) {
             imgPoke = imgPoke.replace(r, otherAliases[r]);
         }
 
-        let imageURL = 'https://github.com/110Percent/beheeyem-data/raw/master/webp/' + imgPoke.replace(" ", "_") + ".webp";
+        let imageURL = 'https://github.com/110Percent/beheeyem-data/raw/master/gifs/' + imgPoke.replace(" ", "_") + ".gif";
 
         var pokedexEntry = dexEntries[pokeEntry.num].filter((c) => { return c.langID == locale.id })[0].flavourText;
         if (!pokedexEntry) {
@@ -189,7 +195,7 @@ exports.action = (msg, args) => {
                 },
                 {
                     name: locale.resources,
-                    value: "[Bulbapedia](http://bulbapedia.bulbagarden.net/wiki/" + capitalizeFirstLetter(poke).replace(" ", "_") + "_(Pokémon\\))  |  [Smogon](http://www.smogon.com/dex/sm/pokemon/" + poke.replace(" ", "_") + ")  |  [PokémonDB](http://pokemondb.net/pokedex/" + poke.replace(" ", "-") + ")"
+                    value: "[Bulbapedia](http://bulbapedia.bulbagarden.net/wiki/" + func.capitalizeFirstLetter(poke).replace(" ", "_") + "_(Pokémon\\))  |  [Smogon](http://www.smogon.com/dex/sm/pokemon/" + poke.replace(" ", "_") + ")  |  [PokémonDB](http://pokemondb.net/pokedex/" + poke.replace(" ", "-") + ")"
                 }
             ],
             image: {
@@ -199,7 +205,7 @@ exports.action = (msg, args) => {
             },
             footer: tFooter
         };
-        msg.channel.send("\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\n\n**" + capitalizeFirstLetter(poke) + "**", {
+        msg.channel.send("\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\n\n**" + func.capitalizeFirstLetter(poke) + "**", {
                 embed: dexEmbed
             })
             .catch(console.error);
@@ -213,8 +219,4 @@ exports.action = (msg, args) => {
         }
         msg.channel.send("⚠ Dex entry not found! " + dymString);
     }
-}
-
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
 }

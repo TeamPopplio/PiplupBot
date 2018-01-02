@@ -1,0 +1,9 @@
+{
+    "mainservers": [],
+    "note": "You can add your own servers to mainservers if you want them to use special commands like -restart.",
+    "guilds": [],
+    "rscmd": {
+        "restarting": false,
+        "channel": "339867439691202571"
+    }
+}

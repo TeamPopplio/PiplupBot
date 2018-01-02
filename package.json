@@ -1,29 +1,35 @@
 {
   "dependencies": {
+    "bing-image": "^0.1.0",
     "cheerio": "^1.0.0-rc.2",
     "colors": "^1.1.2",
     "convert-units": "^2.2.0",
     "csvjson": "^2.2.2",
+    "delay": "^2.0.0",
     "did-you-mean": "^0.0.1",
-    "discord.js": "^11.1.0",
+    "discord.js": "github:hydrabolt/discord.js",
     "image-size": "^0.6.1",
     "jsonfile": "^2.4.0",
     "minimist": "^1.2.0",
     "moment": "^2.18.1",
     "nodemw": "^0.10.1",
+    "ordinal-number-suffix": "^0.1.1",
     "pako": "^1.0.4",
+    "random-puppy": "^1.1.0",
     "requests": "^0.2.2",
     "require-from-url": "^3.1.2",
     "superagent": "^3.3.1",
+    "to-zalgo": "^1.0.1",
     "wtf_wikipedia": "^0.7.1"
   },
-  "name": "Beheeyem",
-  "version": "0.0.1",
-  "description": "Pokemon-based Discord Bot.",
-  "main": "beheeyem.js",
-  "author": "110Percent",
-  "license": "MIT",
+  "name": "PiplupBot",
+  "version": "4.5.0",
+  "description": "",
+  "main": "piplupbot.js",
+  "author": "TeamPopplio",
+  "homepage":"https://github.com/TeamPopplio/PiplupBot",
+  "license": "AGPL-3.0",
   "scripts": {
-    "start": "node beheeyem.js"
+    "start": "node piplupbot.js"
   }
 }

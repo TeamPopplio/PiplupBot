@@ -1,9 +1,12 @@
+exports.description = "Shows information about a move."
+
 const moves = require("../data/moves.js").BattleMovedex,
+    func = require("../data/functions.js")
     footers = require('../data/footers.js');
 let tFooter;
 
 exports.action = (msg, args) => {
-    var moveName = args.toLowerCase();
+    var moveName = args.join(" ").toLowerCase();
     var move = moves[moveName];
     if (!move) {
         for (var i = 0; i < Object.keys(moves).length; i++) {
@@ -45,11 +48,11 @@ exports.action = (msg, args) => {
         if (move.target == "normal") {
             targetString = "One Enemy";
         } else {
-            targetString = capitalizeFirstLetter(move.target.replace(/([A-Z])/g, ' $1'));
+            targetString = func.capitalizeFirstLetter(move.target.replace(/([A-Z])/g, ' $1'));
         }
         var crystalString;
         if (move.isZ) {
-            crystalString = capitalizeFirstLetter(move.isZ.substring(0, move.isZ.length - 1)) + " Z";
+            crystalString = func.capitalizeFirstLetter(move.isZ.substring(0, move.isZ.length - 1)) + " Z";
         } else {
             crystalString = "None";
         }
@@ -113,11 +116,7 @@ exports.action = (msg, args) => {
             ],
             footer: tFooter
         };
-        msg.channel.send("\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\n\n**" + capitalizeFirstLetter(move.name) + "**", { embed: embedObject });
+        msg.channel.send("\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\n\n**" + func.capitalizeFirstLetter(move.name) + "**", { embed: embedObject });
         console.log(embedObject);
     }
-}
-
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
 }

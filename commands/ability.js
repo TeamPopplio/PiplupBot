@@ -1,7 +1,10 @@
+exports.description = "Shows information about an ability."
+
 const request = require('request'),
     requireFromUrl = require('require-from-url/sync'),
     Matcher = require('did-you-mean'),
-    footers = require('../data/footers.js');
+    footers = require('../data/footers.js'),
+    func = require('../data/functions.js')
 let abilities,
     tFooter;
 
@@ -28,7 +31,7 @@ exports.action = (msg, args) => {
         text: footers[Math.floor(Math.random() * footers.length)],
         icon_url: 'https://cdn.rawgit.com/110Percent/beheeyem/gh-pages/include/favicon.png'
     } : null;
-    let abilityName = args.toLowerCase();
+    let abilityName = args.join(" ").toLowerCase();
     if (aliases[abilityName]) {
         abilityName = aliases[abilityName];
     }
@@ -44,7 +47,7 @@ exports.action = (msg, args) => {
         if (!abilityDesc) {
             abilityDesc = ability.shortDesc;
         }
-        msg.channel.send("\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\n\n**" + capitalizeFirstLetter(ability.name) + "**", {
+        msg.channel.send("\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\n\n**" + func.capitalizecapitalizeFirstLetter(ability.name) + "**", {
             embed: {
                 color: 35071,
                 fields: [{
@@ -57,14 +60,14 @@ exports.action = (msg, args) => {
                     },
                     {
                         name: "External Resources",
-                        value: "[Bulbapedia](http://bulbapedia.bulbagarden.net/wiki/" + capitalizeFirstLetter(ability.name.replace(" ", "_")) + "_(Ability\\))  |  [Smogon](http://www.smogon.com/dex/sm/abilities/" + ability.name.toLowerCase().replace(" ", "_") + ")  |  [PokémonDB](http://pokemondb.net/ability/" + ability.name.toLowerCase().replace(" ", "-") + ")"
+                        value: "[Bulbapedia](http://bulbapedia.bulbagarden.net/wiki/" + func.capitalizeFirstLetter(ability.name.replace(" ", "_")) + "_(Ability\\))  |  [Smogon](http://www.smogon.com/dex/sm/abilities/" + ability.name.toLowerCase().replace(" ", "_") + ")  |  [PokémonDB](http://pokemondb.net/ability/" + ability.name.toLowerCase().replace(" ", "-") + ")"
                     }
                 ],
                 footer: tFooter
             }
         });
     } else {
-        let dym = match.get(args);
+        let dym = match.get(args.join(" "));
         let dymString;
         if (dym == null) {
             dymString = 'Check your spelling and try again.';
@@ -73,8 +76,4 @@ exports.action = (msg, args) => {
         }
         msg.channel.send("⚠ Ability not found! " + dymString);
     }
-}
-
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
 }

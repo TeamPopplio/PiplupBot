@@ -1,4 +1,7 @@
-const moment = require('moment');
+exports.description = "'`-user-info <mention>`\nDisplays informaton on a user.'"
+
+const moment = require('moment'),
+    func = require("../data/functions.js");
 
 let statusEmojis = {
     'online': '<:online:313956277808005120>',
@@ -8,12 +11,12 @@ let statusEmojis = {
     'streaming': '<:streaming:313956277132853248>'
 }
 
-exports.action = (msg, args, beheeyem) => {
+exports.action = (msg, args) => {
 
     let targetUser;
 
     targetUser = msg.guild.members.get(msg.author.id);
-    if (args) {
+    if (args.join(" ")) {
         if (msg.mentions) {
             if (msg.mentions.users) {
                 targetUser = msg.guild.members.get(msg.mentions.users.first().id);
@@ -54,7 +57,7 @@ exports.action = (msg, args, beheeyem) => {
                 },
                 {
                     name: 'Status',
-                    value: statusEmojis[cStatus] + ' Currently **' + capitalizeFirstLetter(cStatus) + "**",
+                    value: statusEmojis[cStatus] + ' Currently **' + func.capitalizeFirstLetter(cStatus) + "**",
                     inline: true
                 },
                 {
@@ -64,8 +67,4 @@ exports.action = (msg, args, beheeyem) => {
             ]
         }
     });
-}
-
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
 }
