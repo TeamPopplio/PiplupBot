@@ -1,6 +1,6 @@
 exports.description = "Shows the damage modifiers for a set\nof types.Multiple types can be entered."
 
-const typeMatchups = require("../data/typechart.js").BattleTypeChart,
+var typeMatchups = require("../data/typechart.js").BattleTypeChart,
     func = require("../data/functions.js")
     footers = require('../data/footers.js');
 let tFooter;

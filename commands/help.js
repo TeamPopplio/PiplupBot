@@ -1,6 +1,6 @@
 exports.description = "Displays a list of helpful commands."
 
-const footers = require('../data/footers.js'),
+var footers = require('../data/footers.js'),
     fs = require("fs"),
     func = require("../data/functions.js")
 let tFooter;

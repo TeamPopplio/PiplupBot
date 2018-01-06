@@ -1,4 +1,4 @@
-const facts = [
+var facts = [
     'Prior to Generation VI, Azurill had a small chance of changing its gender upon evolution.',
     'In Pokémon Red and Blue, it was possible to use your fishing rod on statues found in gyms.',
     'A Pikachu caught in Pokémon Yellow and transferred to Stadium will have a different voice actor.',

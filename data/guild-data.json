@@ -1,5 +1,7 @@
 {
-    "mainservers": [],
+    "mainservers": [
+        "301121708050612224"
+    ],
     "note": "You can add your own servers to mainservers if you want them to use special commands like -restart.",
     "guilds": [],
     "rscmd": {

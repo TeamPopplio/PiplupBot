@@ -1,6 +1,6 @@
 exports.description = "Configure settings for this guild."
 // This command is currently unfinished and will be updated in the future.
-const discord = require("discord.js"),
+var discord = require("discord.js"),
     func = require("../data/functions.js"),
     fs = require("fs")
 var data = require('../data/guild-data.json')

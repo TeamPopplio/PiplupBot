@@ -2,7 +2,7 @@ exports.description = "Evaluate programming"
 exports.perms = "admins"
 exports.main = true
 
-const discord = require("discord.js"),
+var discord = require("discord.js"),
     ordinal = require('ordinal-number-suffix'),
     request = require("request"),
     zalgo = require("to-zalgo"),

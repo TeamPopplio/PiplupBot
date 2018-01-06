@@ -1,4 +1,4 @@
-const discord = require("discord.js"),
+var discord = require("discord.js"),
     package = require("../package.json")
 exports.description = "Shows an invite link for "+package.name+" to join servers. Also shows a link for the /r/Pokemon Discord."
 exports.action = (msg, args, client) => {

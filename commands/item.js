@@ -1,6 +1,6 @@
 exports.description = "Shows information about an item."
 
-const request = require('request'),
+var request = require('request'),
     requireFromUrl = require('require-from-url/sync'),
     Matcher = require('did-you-mean'),
     func = require("../data/functions.js")
