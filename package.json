@@ -22,7 +22,7 @@
     "to-zalgo": "^1.0.1",
     "wtf_wikipedia": "^0.7.1"
   },
-  "name": "PiplupBot",
+  "name": "piplupbot",
   "version": "4.5.0",
   "description": "",
   "main": "piplupbot.js",
