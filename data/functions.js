@@ -3,12 +3,13 @@
 // There may not be much documentation, I apologize.
 // I hope this all makes sense to you. ♥
 
-const discord = require("discord.js"),
+var discord = require("discord.js"),
     delay = require('delay'),
     fs = require('fs'),
     colors = require('colors'),
-    moment = require("moment")
-var data = require("./guild-data.json")
+    moment = require("moment"),
+    //data = JSON.parse(fs.readFileSync("./guild-data.json",'utf-8'))
+    data = require("./guild-data.json")
 
 exports.capitalizeFirstLetter = capitalizeFirstLetter
 function capitalizeFirstLetter(string) {
@@ -76,7 +77,19 @@ function checkItalics(msg) {
         }
     }
 }
-
+exports.checkRestart = checkRestart
+function checkRestart(client) {
+    
+    if(data.rscmd.restarting) {
+        if(!client.channels.get(data.rscmd.channel).guild.available)
+            return null
+        client.channels.get(data.rscmd.channel).send(":ok_hand:",
+            {embed:commands.embed}).then(() => {
+            data.rscmd.restarting = false
+            fs.writeFileSync('../data/guild-data.json', JSON.stringify(data,null,4))
+        })
+    }
+}
 exports.loadCommands = loadCommands
 function loadCommands() {
     var cmds = {};
@@ -163,13 +176,16 @@ function joinGuild(guild)
 exports.getVar = getVar
 function getVar(message,str)
 {
+    
     var index = findIndex(data.guilds,"id",message.guild.id)
+    console.log(message.content+"\n"+str)
     return data.guilds[index][str]
 }
 
 exports.addGuild = addGuild
 function addGuild(guild,general)
 {
+    
     var jsondata = {"id":"","minimods":[],"mods":[],"admins":[],"useradmins":[],"disabled":[],"general":"","prefix":"-"}
     jsondata.id = guild.id
     jsondata.general = general.id
@@ -180,6 +196,7 @@ function addGuild(guild,general)
 exports.removeGuild = removeGuild
 function removeGuild(guild)
 {
+    
     var index = findIndex(data.guilds,"id",guild.id)
     data.guilds.splice(index, 1)
     return fs.writeFileSync('guild-data.json', JSON.stringify(data,null,4))
@@ -188,6 +205,7 @@ function removeGuild(guild)
 exports.isDisabled = isDisabled
 function isDisabled(message,command)
 {
+    
     var index = findIndex(data.guilds,"id",message.guild.id)
     var e = false
     for (var i = 0; i < data.guilds[index].disabled.length; i++) {
@@ -203,6 +221,7 @@ function isDisabled(message,command)
 exports.isMain = isMain
 function isMain(message)
 {
+    
     var e = false
     for (var i = 0; i < data.mainservers.length; i++) {
         if(data.mainservers[i] == message.guild.id)
@@ -216,6 +235,7 @@ function isMain(message)
 exports.isAllowed = isAllowed
 function isAllowed(message,role)
 {
+    
     var index = findIndex(data.guilds,"id",message.guild.id)
     var arole = ""
     if(message.author.id == message.guild.ownerID) return true
@@ -262,6 +282,7 @@ function error(message,error)
 exports.findIndex = findIndex
 function findIndex(array, key, value)
 { 
+    console.log("test")
     for (var i = 0; i < array.length; i++) {
         if (array[i][key] == value) {
             return i;
@@ -425,20 +446,7 @@ function heart(value)
         return ":heart:️️";
     }
 } 
-function findIndex(array, key, value)
-{ 
-    for (var i = 0; i < array.length; i++) {
-        if (array[i][key] == value) {
-            return i;
-        }
-    }
-    return null;
-}
-function colorID(color)
-{
-    var index = findIndex(colorlist, "name", color);
-    return colorlist[index].roleid;
-}
+
 function outputDexEntry(names,entry,basespecies,prevolution,evolutions,otherformes,types,size,mass,egggroups,basestats,abilities,hiddenability,author,image,color,dexno,icon,url)
 {
     var richembed = new discord.MessageEmbed()

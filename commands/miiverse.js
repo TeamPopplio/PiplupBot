@@ -1,4 +1,4 @@
-const cheerio = require('cheerio'),
+var cheerio = require('cheerio'),
     request = require('request');
 
 exports.action = (msg, args) => {

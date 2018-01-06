@@ -1,6 +1,6 @@
 exports.description = "'`-user-info <mention>`\nDisplays informaton on a user.'"
 
-const moment = require('moment'),
+var moment = require('moment'),
     func = require("../data/functions.js");
 
 let statusEmojis = {

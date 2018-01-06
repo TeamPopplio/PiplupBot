@@ -1,4 +1,4 @@
-const func = require("../data/functions.js"),
+var func = require("../data/functions.js"),
     discord = require("discord.js");
 var data = require("../data/guild-data.json")
 exports.action = (message, args) => {

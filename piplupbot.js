@@ -1,7 +1,7 @@
 //=========\\
 // Modules: \\
 //////////////////////////////////////////////////////
-const discord = require("discord.js"),              // Discord integration
+var discord = require("discord.js"),              // Discord integration
     fs = require('fs'),                             // Filesystem writing
     ordinal = require('ordinal-number-suffix'),     // Adds ordinals to integers
     request = require("request"),                   // Sends HTTP requests to web APIs
@@ -16,6 +16,7 @@ const discord = require("discord.js"),              // Discord integration
 // Bot variables: \\
 //////////////////////////////////////////////////
 var client = new discord.Client(),              // This is the bot's client object.
+    data = require('./data/guild-data.json'),   // This file contains saved information for members and their use of commands.
     func = require('./data/functions.js'),      // This file contains functions that will be used for various commands.
     commands = func.loadCommands();             // This will load the various commands that are used.   
 //////////////////////////////////////////////////
@@ -25,14 +26,13 @@ var client = new discord.Client(),              // This is the bot's client obje
 //////////////////////////////////////////////////////////////////////////
 client.login(token)                                                     // This will log into Discord as your bot.
 client.on('ready', () => {                                              // When the client is ready to recieve requests.
-    var data = require('./data/guild-data.json')                        //
     if(data.rscmd.restarting) {                                         // If the bot is currently attempting to restart.
         if(!client.channels.get(data.rscmd.channel).guild.available)    //
             return null                                                 // Don't do anything, there's a server outage taking place.
         client.channels.get(data.rscmd.channel).send(":ok_hand:",       //
             {embed:commands.embed}).then(() => {                        //
             data.rscmd.restarting = false                               //
-            fs.writeFileSync('./data/guild-data.json',                  // Write false to the json.
+            fs.writeFile('./data/guild-data.json',                      // Write false to the json.
                 JSON.stringify(data,null,4))                            //
         })                                                              //
     }                                                                   //
@@ -91,10 +91,8 @@ client.on("guildDelete", guild => {                                     // Remov
 client.on("message", message => {                                       // Check for any messages sent and see if they're commands or not.
     var prefix = func.getVar(message,"prefix"),                         // Prefixes can be set per-guild, so we're just getting this guild's prefix before continuing.
         commandstring = message.content.substring(prefix.length),       //
-        data = require('./data/guild-data.json')                        // This file contains saved information for members and their use of commands.
         cmd = commandstring.split(" ")[0];                              //
     let args = message.content.split(' ').slice(1)                      //
-    console.log(data)
     if(message.author.id == client.user.id)                             //
         return null;                                                    // Ignore the message as it was sent by the bot.
     else if(!message.content.startsWith(prefix)                         //

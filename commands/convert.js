@@ -1,6 +1,6 @@
 exports.description = '`-convert 5 km to mi`\nConvert a value between two units.'
 
-const convert = require('convert-units');
+var convert = require('convert-units');
 let units = convert().possibilities();
 
 exports.action = (msg, args) => {

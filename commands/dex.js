@@ -1,6 +1,6 @@
 exports.description = "Shows information about a Pokémon."
 
-const request = require('request'),
+var request = require('request'),
     requireFromUrl = require('require-from-url/sync'),
     dexEntries = require("../data/flavorText.json"),
     abilities = require("../data/abilities.js").BattleAbilities,

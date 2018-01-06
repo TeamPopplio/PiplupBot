@@ -1,6 +1,6 @@
 exports.description = "Shows information about a move."
 
-const moves = require("../data/moves.js").BattleMovedex,
+var moves = require("../data/moves.js").BattleMovedex,
     func = require("../data/functions.js")
     footers = require('../data/footers.js');
 let tFooter;

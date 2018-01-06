@@ -1,6 +1,6 @@
 exports.description = "almost no effort was made"
 
-const discord = require("discord.js")
+var discord = require("discord.js")
 exports.action = (msg) => {
     msg.channel.send('', {
         embed:new discord.MessageEmbed()

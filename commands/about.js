@@ -1,6 +1,6 @@
 exports.description = "Displays information from the node package."
 
-const discord = require("discord.js"),
+var discord = require("discord.js"),
     package =  require("../package.json")
 exports.action = (msg, args, client) => {
     var embed = new discord.MessageEmbed()

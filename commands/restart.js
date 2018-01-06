@@ -2,7 +2,7 @@ exports.description = "Restarts the bot."
 exports.perms = "admins"
 exports.main = true
 
-const func = require("../data/functions.js"),
+var func = require("../data/functions.js"),
     fs = require("fs")
 var data = require("../data/guild-data.json")
 exports.action = (message) => {

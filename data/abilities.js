@@ -416,7 +416,7 @@ exports.BattleAbilities = {
 
 				if (target.side.active.length === 2 && target.position === 1) {
 					// Curse Glitch
-					const decision = this.willMove(target);
+					var decision = this.willMove(target);
 					if (decision && decision.move.id === 'curse') {
 						decision.targetLoc = -1;
 					}
